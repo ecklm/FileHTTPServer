@@ -47,7 +47,7 @@ class ServerThread(threading.Thread):
 		"""
 		self.__server = server
 
-	def stop(self): #TODO meg kéne csinálni, hogy a futó zipper thread-eket is állítsa le
+	def stop(self): #TODO should also stop the running zipper thread(s)
 		if (self.__server != None) and (self.isAlive() == True):
 			self.__server.shutdown()
 			print("Server stopped serving on %s on port %s." %
