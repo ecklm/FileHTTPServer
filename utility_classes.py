@@ -23,11 +23,11 @@ class ZipStream(threading.Thread):
                  args=(), kwargs=None, *, daemon=None):
 		super(ZipStream, self).__init__(group, target, name,
 		                                args, kwargs, daemon=daemon)
-		self.__dirToZip=dirToZip
-		(self.__readpipefd, self.__writepipefd) =os.pipe()
+		self.__dirToZip = dirToZip
+		(self.__readpipefd, self.__writepipefd) = os.pipe()
 
 	def run(self):
-		pipeout=io.FileIO(self.__writepipefd, "wb")
+		pipeout = io.FileIO(self.__writepipefd, "wb")
 		z=zipfile.ZipFile(pipeout,"w", zipfile.ZIP_DEFLATED)
 		for x in os.walk(self.__dirToZip):
 			for y in x[2]:

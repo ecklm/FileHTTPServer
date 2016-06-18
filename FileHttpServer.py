@@ -19,11 +19,11 @@ class FileRequestHandler(BaseHTTPRequestHandler):
 		self.send_header('Content-Disposition', 'attachment;'
 	                    'filename=%s' % file_name.encode().decode('latin-1')) # This function wants to decode it from latin-1. Not fully appropriate solution.
 
-		if file_type==FileType.zipstream:
-			sendThread=ZipStream(file_to_send_full_path)
+		if file_type == FileType.zipstream:
+			sendThread = ZipStream(file_to_send_full_path)
 			sendThread.start()
-			file_stream=sendThread.getPipein()
-		elif file_type==FileType.realfile:
+			file_stream = sendThread.getPipein()
+		elif file_type == FileType.realfile:
 			file_stream = open(file_to_send_full_path, 'rb')
 			file_size = os.path.getsize(file_to_send_full_path)
 			self.send_header("Content-Length", file_size)
@@ -32,9 +32,9 @@ class FileRequestHandler(BaseHTTPRequestHandler):
 		self.end_headers()
 
 		x=file_stream.read(send_block_size)
-		while x!=b'':
+		while x != b'':
 			self.wfile.write(x)
-			x=file_stream.read(send_block_size)
+			x = file_stream.read(send_block_size)
 		file_stream.close()
 
 if __name__ == '__main__':
@@ -48,7 +48,7 @@ if __name__ == '__main__':
 	# Initializing the serving propertioes for the selected file
 	try:
 		if os.path.isdir(file_to_send_full_path): # Returns false even if the file doesn't exist
-			file_name=os.path.basename(file_to_send_full_path + ".zip")
+			file_name = os.path.basename(file_to_send_full_path + ".zip")
 			send_block_size = 4096 # Experimental value
 			file_type = FileType.zipstream
 		else:
